@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -277,7 +277,11 @@ public static class CommentsHelper
 
     private static IEnumerable<SyntaxTrivia> ConvertDocComment(JavaComments.Comment comment, string? post)
     {
-        string[] input = comment.getContent().Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+        string content = comment.getContent();
+        string newline = "\n";
+        if (content.Contains( Environment.NewLine ))
+            newline = Environment.NewLine;
+        string[] input = content.Split(newline, StringSplitOptions.None);
         var output = new List<string>();
         var remarks = new List<string>(); // For Java tags unknown in C#
         var currentOutput = output;
